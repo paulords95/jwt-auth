@@ -3,6 +3,8 @@ const { genSalt } = require('bcrypt')
 const bcrypt = require('bcrypt')
 const pool = require('../db')
 
+const jwtGenerator = require('../utils/jwtGenerator')
+
 router.post('/register', async (req, res) => {
     try {
 
@@ -20,11 +22,12 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(saltRound)
 
 
-        const bcryptPassword = bcrypt.hash(password, salt)
+        const bcryptPassword = await bcrypt.hash(password, salt)
 
         const newUser = await pool.query('INSERT INTO "jwt-auth".users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *', [name, email, bcryptPassword])
 
-        res.json(newUser.rows[0])
+        const token = jwtGenerator(newUser.rows[0].user_id)
+        res.json({token})
     } catch (error) {
         console.log(error.message)
         res.status(500).send('server error')
