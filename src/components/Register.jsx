@@ -16,15 +16,14 @@ const Register = () => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     const body = { email, password, name };
-    console.log(body);
     try {
       const response = await fetch("http://localhost:5000/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application-json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
-      const parseResponse = await response;
+      const parseResponse = await response.json();
 
       console.log(parseResponse);
     } catch (error) {
