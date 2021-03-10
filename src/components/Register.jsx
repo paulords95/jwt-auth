@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 
-const Register = () => {
+const Register = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -25,7 +25,8 @@ const Register = () => {
 
       const parseResponse = await response.json();
 
-      console.log(parseResponse);
+      localStorage.setItem("token", parseResponse.token);
+      setAuth(true);
     } catch (error) {
       console.log(error);
     }
@@ -42,6 +43,7 @@ const Register = () => {
           className="form-control my-3"
           value={email}
           onChange={onChange}
+          onInput={onChange}
         />
         <input
           type="password"
@@ -50,6 +52,7 @@ const Register = () => {
           className="form-control my-3"
           value={password}
           onChange={onChange}
+          onInput={onChange}
         />
         <input
           type="text"
@@ -58,6 +61,7 @@ const Register = () => {
           className="form-control my-3"
           value={name}
           onChange={onChange}
+          onInput={onChange}
         />
         <button className="btn btn-success btn-block">Register</button>
       </form>
