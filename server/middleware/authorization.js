@@ -17,7 +17,7 @@ module.exports = async (req, res, next) => {
         next()
 
     } catch (error) {
-        console.error(err.message)
+        console.error(error.message)
         return res.status(403).json('not authorize')
     }
 }
