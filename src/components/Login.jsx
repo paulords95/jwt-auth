@@ -26,7 +26,9 @@ const Login = ({ setAuth }) => {
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
+
+      localStorage.setItem("token", parseRes.token);
+      setAuth(true);
     } catch (error) {
       console.log(error);
     }
